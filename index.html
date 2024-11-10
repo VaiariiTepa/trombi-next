@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        
         @media print {
             /* Règles de base pour l'impression */
             * {
@@ -52,15 +51,6 @@
                 max-width: none !important;
                 margin: 0 !important;
                 padding: 0 5px !important;
-            }
-
-            /* Masquer les effets de lueur */
-            .glow-effect {
-                display: none !important;
-            }
-
-            .glowing-border::before {
-                display: none !important;
             }
 
             .photo-container {
@@ -348,81 +338,6 @@
 
             width: 50px;
             height: 50px;
-        }
-
-        @keyframes glowingEffect {
-            0% {
-                background: linear-gradient(90deg, transparent 0%, rgba(148, 112, 219, 0.323) 50%, transparent 100%) border-box;
-            }
-
-            100% {
-                background: linear-gradient(450deg, transparent 0%, rgba(148, 112, 219, 0.599) 50%, transparent 100%) border-box;
-            }
-        }
-
-        .glowing-border {
-            position: relative;
-        }
-
-        .glowing-border::before {
-            content: '';
-            position: absolute;
-            top: -3px;
-            left: -3px;
-            right: -3px;
-            bottom: -3px;
-            border-radius: 50%;
-            background: linear-gradient(90deg, transparent 0%, rgba(148, 112, 219, 0.645) 50%, transparent 100%);
-            animation: glowingEffect 2s linear infinite;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .glowing-border.active::before {
-            opacity: 1;
-        }
-
-        /* Ajustement pour conserver la forme ronde des photos */
-        .circular-photo {
-            position: relative;
-            z-index: 1;
-        }
-
-        .photo-container {
-            position: relative;
-        }
-
-        .glow-effect {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background-color: rgba(180, 137, 249, 0.53);
-            filter: blur(10px);
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 2s ease;
-        }
-
-        .photo-container img {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Ajustement pour les différents types de photos */
-        .image_mayor .photo-container .glow-effect {
-            width: 120%;
-            height: 120%;
-        }
-
-        .image_c_majority .photo-container .glow-effect,
-        .image_minority .photo-container .glow-effect {
-            width: 110%;
-            height: 110%;
         }
     </style>
 </head>
@@ -853,63 +768,18 @@
                 setTimeout(() => {
                     splashscreen.style.display = 'none';
                     mainContent.style.display = 'block';
-                    setupPhotos();
                     animateCards();
                 }, 500);
             }, 3000);
 
-
             // Animate cards sequentially
-            function setupPhotos() {
-                // Entourer chaque image d'un container et ajouter l'effet de lueur
-                document.querySelectorAll('figure img').forEach(img => {
-                    const container = document.createElement('div');
-                    container.className = 'photo-container';
-                    const glow = document.createElement('div');
-                    glow.className = 'glow-effect';
-
-                    img.parentNode.insertBefore(container, img);
-                    container.appendChild(glow);
-                    container.appendChild(img);
-                });
-
-                startRandomGlowing();
-            }
-
-            function startRandomGlowing() {
-                const glowEffects = document.querySelectorAll('.glow-effect');
-
-                function randomGlow() {
-                    // Sélectionner un nombre aléatoire d'effets à activer (entre 1 et 5)
-                    const numToGlow = 6;
-
-                    // Désactiver tous les effets
-                    glowEffects.forEach(effect => {
-                        effect.style.opacity = '0';
-                    });
-
-                    // Sélectionner des effets aléatoires à activer
-                    for (let i = 0; i < numToGlow; i++) {
-                        const randomIndex = Math.floor(Math.random() * glowEffects.length);
-                        const randomOpacity = 1; // Opacité entre 0.2 et 0.6
-                        glowEffects[randomIndex].style.opacity = randomOpacity;
-                    }
-
-                    // Définir un délai aléatoire pour le prochain clignotement (entre 500ms et 2000ms)
-                    setTimeout(randomGlow, Math.random() * 2500 + 1000);
-                }
-
-                randomGlow();
-            }
-
-            // Animation des cartes existante
             function animateCards() {
                 const cards = document.querySelectorAll('.person-card');
                 cards.forEach((card, index) => {
                     setTimeout(() => {
                         card.style.opacity = '1';
                         card.classList.add('animate__bounceIn');
-                    }, index * 200);
+                    }, index * 200); // 200ms delay between each card
                 });
             }
         });
