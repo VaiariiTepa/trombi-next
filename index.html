@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         @media print {
+
             /* Règles de base pour l'impression */
             * {
                 -webkit-print-color-adjust: exact !important;
@@ -24,7 +25,8 @@
             }
 
             /* Force l'affichage des couleurs pour les bannières */
-            .banner, .simple-banner {
+            .banner,
+            .simple-banner {
                 background-color: #4dc1d0 !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
@@ -100,7 +102,8 @@
             }
 
             /* Assurer la visibilité du texte dans les bannières */
-            .banner-title, .simple-banner-title {
+            .banner-title,
+            .simple-banner-title {
                 color: white !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
@@ -338,6 +341,88 @@
 
             width: 50px;
             height: 50px;
+        }
+
+        /* Style pour le flou */
+        .blur-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            backdrop-filter: blur(5px);
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 998;
+            transition: all 0.3s ease;
+        }
+
+        /* Style pour le modal */
+        .sliding-modal {
+            display: none;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: -100%;
+            height: 75vh;
+            background-color: white;
+            z-index: 999;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            transition: bottom 0.5s ease-in-out;
+            box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .sliding-modal.active {
+            bottom: 0;
+        }
+
+        .modal-content {
+            padding: 2rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 1.5rem;
+            top: 1.5rem;
+            background: none;
+            border: none;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 2rem;
+        }
+
+        .modal-photo {
+            width: 120px;
+            height: 150px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        .modal-title {
+            flex-grow: 1;
+        }
+
+        .modal-description {
+            line-height: 1.6;
+        }
+
+        .modal-description p {
+            margin-bottom: 1rem;
+        }
+
+        /* Désactiver le scroll de la page principale quand le modal est ouvert */
+        body.modal-open {
+            overflow: hidden;
         }
     </style>
 </head>
@@ -754,6 +839,34 @@
             </div>
         </section>
     </div>
+    <div id="blur-overlay" class="blur-overlay"></div>
+
+    <!-- Container pour tous les modals -->
+    <div id="modals-container">
+        <!-- Un modal par personne -->
+        <div id="modal-1" class="sliding-modal">
+            <div class="modal-content">
+                <button class="modal-close">&times;</button>
+                <div class="modal-header">
+                    <img src="https://placehold.co/160x200" alt="M. Jean DUPONT" class="modal-photo">
+                    <div class="modal-title">
+                        <h3 class="is-size-4 has-text-weight-bold">M. Jean DUPONT</h3>
+                        <p class="is-size-5">Maire</p>
+                    </div>
+                </div>
+                <div class="modal-description">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut
+                        labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                        laboris nisi ut aliquip ex ea commodo consequat.</p>
+                    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                        pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+                        mollit anim id est laborum.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Répéter pour chaque personne avec un ID unique -->
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Handle splash screen
@@ -782,6 +895,70 @@
                     }, index * 200); // 200ms delay between each card
                 });
             }
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Configuration des cartes
+            const cards = document.querySelectorAll('.person-card');
+            const blurOverlay = document.getElementById('blur-overlay');
+            let currentModal = null;
+
+            // Ajouter les écouteurs d'événements pour chaque carte
+            cards.forEach((card, index) => {
+                card.addEventListener('click', () => {
+                    const modalId = `modal-${index + 1}`;
+                    const modal = document.getElementById(modalId);
+                    if (modal) {
+                        openModal(modal);
+                    }
+                });
+            });
+
+            // Fonction pour ouvrir un modal
+            function openModal(modal) {
+                currentModal = modal;
+                document.body.classList.add('modal-open');
+                blurOverlay.style.display = 'block';
+                modal.style.display = 'block';
+
+                // Force un reflow pour permettre l'animation
+                modal.offsetHeight;
+
+                setTimeout(() => {
+                    modal.classList.add('active');
+                    blurOverlay.style.opacity = '1';
+                }, 10);
+            }
+
+            // Fonction pour fermer un modal
+            function closeModal() {
+                if (currentModal) {
+                    currentModal.classList.remove('active');
+                    blurOverlay.style.opacity = '0';
+
+                    setTimeout(() => {
+                        currentModal.style.display = 'none';
+                        blurOverlay.style.display = 'none';
+                        document.body.classList.remove('modal-open');
+                        currentModal = null;
+                    }, 500);
+                }
+            }
+
+            // Gérer la fermeture des modals
+            document.querySelectorAll('.modal-close').forEach(button => {
+                button.addEventListener('click', closeModal);
+            });
+
+            // Fermer le modal en cliquant sur l'overlay
+            blurOverlay.addEventListener('click', closeModal);
+
+            // Fermer le modal avec la touche Echap
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
         });
     </script>
 </body>
