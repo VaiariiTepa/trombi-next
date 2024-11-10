@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trombinoscope - Conseil Municipal 2020-2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+
+            .section {
+                padding: 5px !important;
+            }
+
+            .print-button {
+                display: none;
+            }
+
+            /* Masquer tous les effets de lueur pour l'impression */
+            .glow-effect {
+                display: none !important;
+            }
+
+            .glowing-border::before {
+                display: none !important;
+            }
+
+            .photo-container {
+                background: none !important;
+            }
+
+            @page {
+                size: A4;
+                margin: 0;
+            }
+
+            .column.is-1-desktop {
+                display: flex;
+                justify-content: space-around;
+                width: 14%;
+            }
+
+            .image_mayor img {
+                height: auto;
+                width: 60%;
+            }
+
+            .image_minority img {
+                width: 60%;
+            }
+
+            .image_c_majority img {
+                width: 80%;
+            }
+
+            .circular-photo {
+                height: 40px;
+                width: 20px;
+            }
+
+            section {
+                padding: 0px;
+            }
+        }
+
+        .person-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-radius: 15px;
+
+        }
+
+        .person-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .circular-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto;
+        }
+
+        /* .image_minority img {
+            width: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 0 auto;
+        } */
+
+        .council-minority-photo {
+            /* width: 150px;
+            height: 150px; */
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .rounded-photo {
+            border-radius: 15px;
+            object-fit: cover;
+        }
+
+        .mayor-photo {
+            height: 300px;
+            width: 250px;
+        }
+
+        .council-photo {
+            height: 140px;
+            width: 140px;
+        }
+
+
+
+        .section {
+            /* padding: 1rem 1.5rem; */
+        }
+
+        @media screen and (max-width: 768px) {
+            .circular-photo {
+                width: 120px;
+                height: 120px;
+            }
+
+            .council-photo {
+                height: 140px;
+                width: 140px;
+            }
+
+            .mayor-photo {
+                height: 250px;
+                width: 200px;
+            }
+        }
+
+
+        .banner {
+            background-color: #4dc1d0;
+            padding: 0rem;
+            padding-top: 0.8rem;
+            padding-bottom: 0.8rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .banner-content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            max-width: 100%;
+        }
+
+        .banner-logo {
+            position: absolute;
+            left: 0;
+            height: 90px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        .banner-title {
+            color: white;
+            text-align: center;
+            margin: 0 auto;
+            padding: 0 70px;
+            /* Espace pour le logo */
+            font-size: 1.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-family: ui-serif;
+            font-weight: 900;
+        }
+
+        .simple-banner {
+            background-color: #4dc1d0;
+            padding: 5px;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .simple-banner-title {
+            color: white;
+            text-align: center;
+            margin: 0;
+            font-size: 1.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        @media screen and (max-width: 768px) {
+            .banner-logo {
+                height: 81px;
+            }
+
+            .banner-title {
+                font-size: 1.25rem;
+                padding: 0 50px;
+                font-family: ui-serif;
+                font-weight: 900;
+            }
+
+            .simple-banner-title {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .banner-logo {
+                height: 62px;
+            }
+
+            .banner-title {
+                font-size: 1.3rem;
+                padding: 0 28px;
+                font-family: ui-serif;
+                font-weight: 900;
+            }
+        }
+
+        /* Splash screen */
+        #splashscreen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #4a90e2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        #splash-logo {
+            opacity: 0;
+            transform: scale(0.5);
+            animation: zoomIn 1s ease forwards;
+        }
+
+        @keyframes zoomIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.5);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        /* Hide main content initially */
+        #main-content {
+            display: none;
+        }
+
+        /* Person cards setup for sequential animation */
+        .person-card {
+            opacity: 0;
+        }
+
+        .animate__bounceIn {
+            animation-duration: 1s;
+        }
+
+        .print-button {
+            position: fixed;
+            /* Ajout de la position fixe */
+            bottom: 20px;
+            /* Distance du bas */
+            right: 20px;
+            /* Distance de la droite */
+            z-index: 1000;
+            /* Assurer la visibilité au-dessus des autres éléments */
+            border-radius: 50%;
+
+            width: 50px;
+            height: 50px;
+        }
+
+        @keyframes glowingEffect {
+            0% {
+                background: linear-gradient(90deg, transparent 0%, rgba(148, 112, 219, 0.323) 50%, transparent 100%) border-box;
+            }
+
+            100% {
+                background: linear-gradient(450deg, transparent 0%, rgba(148, 112, 219, 0.599) 50%, transparent 100%) border-box;
+            }
+        }
+
+        .glowing-border {
+            position: relative;
+        }
+
+        .glowing-border::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            border-radius: 50%;
+            background: linear-gradient(90deg, transparent 0%, rgba(148, 112, 219, 0.645) 50%, transparent 100%);
+            animation: glowingEffect 2s linear infinite;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .glowing-border.active::before {
+            opacity: 1;
+        }
+
+        /* Ajustement pour conserver la forme ronde des photos */
+        .circular-photo {
+            position: relative;
+            z-index: 1;
+        }
+
+        .photo-container {
+            position: relative;
+        }
+
+        .glow-effect {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: rgba(180, 137, 249, 0.53);
+            filter: blur(10px);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 2s ease;
+        }
+
+        .photo-container img {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Ajustement pour les différents types de photos */
+        .image_mayor .photo-container .glow-effect {
+            width: 120%;
+            height: 120%;
+        }
+
+        .image_c_majority .photo-container .glow-effect,
+        .image_minority .photo-container .glow-effect {
+            width: 110%;
+            height: 110%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="splashscreen">
+        <img src="logo.png" id="splash-logo" alt="Logo" width="300">
+    </div>
+    <div id="main-content">
+
+        <button onclick="window.print()" class="button is-primary print-button">
+            <i class="fas fa-print"></i>
+        </button>
+
+        <!-- Section 1: Conseil Municipal -->
+        <section class="section">
+            <div class="container">
+                <div class="banner">
+                    <div class="banner-content">
+                        <img src="logo.png" alt="Logo" class="banner-logo">
+                        <div>
+
+                            <h2 class="banner-title">Conseil Municipal</h2>
+                            <h2 class="banner-title">2020-2026</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Première ligne avec le maire et 4 conseillers -->
+                <div class="columns is-multiline is-mobile is-centered">
+                    <!-- Maire -->
+                    <div
+                        class="column is-4-mobile is-one-fifth-tablet is-one-fifth-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image_mayor  is-inline-block">
+                                <img src="https://placehold.co/160x200" alt="Maire" class="council-photo rounded-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Jean DUPONT</p>
+                            <p class="is-size-7">Maire</p>
+                        </div>
+                    </div>
+
+                    <!-- 4 conseillers de la première ligne -->
+                    <div
+                        class="column is-4-mobile is-one-fifth-tablet is-one-fifth-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image_mayor  is-inline-block">
+                                <img src="https://placehold.co/160x200" alt="1er Adjoint"
+                                    class="council-photo rounded-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">Mme Marie MARTIN</p>
+                            <p class="is-size-7">1ère Adjointe</p>
+                        </div>
+                    </div>
+                    <div
+                        class="column is-4-mobile is-one-fifth-tablet is-one-fifth-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image_mayor  is-inline-block">
+                                <img src="https://placehold.co/160x200" alt="1er Adjoint"
+                                    class="council-photo rounded-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">Mme Marie MARTIN</p>
+                            <p class="is-size-7">1ère Adjointe</p>
+                        </div>
+                    </div>
+                    <div
+                        class="column is-4-mobile is-one-fifth-tablet is-one-fifth-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image_mayor  is-inline-block">
+                                <img src="https://placehold.co/160x200" alt="1er Adjoint"
+                                    class="council-photo rounded-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">Mme Marie MARTIN</p>
+                            <p class="is-size-7">1ère Adjointe</p>
+                        </div>
+                    </div>
+                    <div
+                        class="column is-4-mobile is-one-fifth-tablet is-one-fifth-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image_mayor  is-inline-block">
+                                <img src="https://placehold.co/160x200" alt="1er Adjoint"
+                                    class="council-photo rounded-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">Mme Marie MARTIN</p>
+                            <p class="is-size-7">1ère Adjointe</p>
+                        </div>
+                    </div>
+                    <div
+                        class="column is-4-mobile is-one-fifth-tablet is-one-fifth-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image_mayor  is-inline-block">
+                                <img src="https://placehold.co/160x200" alt="1er Adjoint"
+                                    class="council-photo rounded-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">Mme Marie MARTIN</p>
+                            <p class="is-size-7">1ère Adjointe</p>
+                        </div>
+                    </div>
+                    <div
+                        class="column is-4-mobile is-one-fifth-tablet is-one-fifth-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image_mayor  is-inline-block">
+                                <img src="https://placehold.co/160x200" alt="1er Adjoint"
+                                    class="council-photo rounded-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">Mme Marie MARTIN</p>
+                            <p class="is-size-7">1ère Adjointe</p>
+                        </div>
+                    </div>
+                    <div
+                        class="column is-4-mobile is-one-fifth-tablet is-one-fifth-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image_mayor  is-inline-block">
+                                <img src="https://placehold.co/160x200" alt="1er Adjoint"
+                                    class="council-photo rounded-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">Mme Marie MARTIN</p>
+                            <p class="is-size-7">1ère Adjointe</p>
+                        </div>
+                    </div>
+                    <div
+                        class="column is-4-mobile is-one-fifth-tablet is-one-fifth-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image_mayor  is-inline-block">
+                                <img src="https://placehold.co/160x200" alt="1er Adjoint"
+                                    class="council-photo rounded-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">Mme Marie MARTIN</p>
+                            <p class="is-size-7">1ère Adjointe</p>
+                        </div>
+                    </div>
+                    <div
+                        class="column is-4-mobile is-one-fifth-tablet is-one-fifth-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image_mayor  is-inline-block">
+                                <img src="https://placehold.co/160x200" alt="1er Adjoint"
+                                    class="council-photo rounded-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">Mme Marie MARTIN</p>
+                            <p class="is-size-7">1ère Adjointe</p>
+                        </div>
+                    </div>
+                    <!-- Répéter pour les autres conseillers avec mêmes classes -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Conseillers de la majorité -->
+        <section class="section has-background-light">
+            <div class="container">
+                <div class="simple-banner">
+                    <h2 class="simple-banner-title">Les Conseillers de la Majorité</h2>
+                </div>
+                <div class="columns is-multiline is-mobile is-centered">
+                    <!-- Exemple pour un conseiller de la majorité -->
+                    <div
+                        class="column is-3-mobile is-2-tablet is-1-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_c_majority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <!-- Exemple pour un conseiller de la majorité -->
+                    <div
+                        class="column is-3-mobile is-2-tablet is-1-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_c_majority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <!-- Exemple pour un conseiller de la majorité -->
+                    <div
+                        class="column is-3-mobile is-2-tablet is-1-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_c_majority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <!-- Exemple pour un conseiller de la majorité -->
+                    <div
+                        class="column is-3-mobile is-2-tablet is-1-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_c_majority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <!-- Exemple pour un conseiller de la majorité -->
+                    <div
+                        class="column is-3-mobile is-2-tablet is-1-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_c_majority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <!-- Exemple pour un conseiller de la majorité -->
+                    <div
+                        class="column is-3-mobile is-2-tablet is-1-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_c_majority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <!-- Exemple pour un conseiller de la majorité -->
+                    <div
+                        class="column is-3-mobile is-2-tablet is-1-desktop has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_c_majority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <!-- Répéter pour les autres conseillers -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Conseillers de la minorité -->
+        <section class="section">
+            <div class="container">
+                <div class="simple-banner">
+                    <h2 class="simple-banner-title">Les Conseillers de la Minorité</h2>
+                </div>
+                <div class="columns is-multiline is-mobile is-centered">
+                    <!-- Exemple pour un conseiller de la minorité -->
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <div class="column is-3-mobile is-2-tablet  has-text-centered animate__animated animate__fadeIn">
+                        <div class="person-card">
+                            <figure class="image image_minority  is-inline-block">
+                                <img src="https://placehold.co/150x150" alt="Conseiller majorité"
+                                    class="circular-photo">
+                            </figure>
+                            <p class="is-size-7 has-text-weight-bold">M. Pierre DUBOIS</p>
+                            <p class="is-size-7">Conseiller</p>
+                        </div>
+                    </div>
+                    <!-- Répéter pour les autres conseillers -->
+                </div>
+            </div>
+        </section>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Handle splash screen
+            setTimeout(() => {
+                const splashscreen = document.getElementById('splashscreen');
+                const mainContent = document.getElementById('main-content');
+
+                splashscreen.style.opacity = '1';
+                splashscreen.style.transition = 'opacity 0.5s ease';
+                splashscreen.style.opacity = '0';
+
+                setTimeout(() => {
+                    splashscreen.style.display = 'none';
+                    mainContent.style.display = 'block';
+                    setupPhotos();
+                    animateCards();
+                }, 500);
+            }, 3000);
+
+
+            // Animate cards sequentially
+            function setupPhotos() {
+                // Entourer chaque image d'un container et ajouter l'effet de lueur
+                document.querySelectorAll('figure img').forEach(img => {
+                    const container = document.createElement('div');
+                    container.className = 'photo-container';
+                    const glow = document.createElement('div');
+                    glow.className = 'glow-effect';
+
+                    img.parentNode.insertBefore(container, img);
+                    container.appendChild(glow);
+                    container.appendChild(img);
+                });
+
+                startRandomGlowing();
+            }
+
+            function startRandomGlowing() {
+                const glowEffects = document.querySelectorAll('.glow-effect');
+
+                function randomGlow() {
+                    // Sélectionner un nombre aléatoire d'effets à activer (entre 1 et 5)
+                    const numToGlow = 6;
+
+                    // Désactiver tous les effets
+                    glowEffects.forEach(effect => {
+                        effect.style.opacity = '0';
+                    });
+
+                    // Sélectionner des effets aléatoires à activer
+                    for (let i = 0; i < numToGlow; i++) {
+                        const randomIndex = Math.floor(Math.random() * glowEffects.length);
+                        const randomOpacity = 1; // Opacité entre 0.2 et 0.6
+                        glowEffects[randomIndex].style.opacity = randomOpacity;
+                    }
+
+                    // Définir un délai aléatoire pour le prochain clignotement (entre 500ms et 2000ms)
+                    setTimeout(randomGlow, Math.random() * 2500 + 1000);
+                }
+
+                randomGlow();
+            }
+
+            // Animation des cartes existante
+            function animateCards() {
+                const cards = document.querySelectorAll('.person-card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.classList.add('animate__bounceIn');
+                    }, index * 200);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
